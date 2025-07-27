@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/map_layout"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp"
+        map:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        map:behavior_peekHeight="300dp"  map:behavior_hideable="false"   >
+
+        <View
+            android:id="@+id/drag_handle"
+            android:layout_width="40dp"
+            android:layout_height="5dp"
+            android:background="@android:color/darker_gray"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#CCCCCC"/>
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:hint="부산"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/search_bar_background"
+            map:layout_constraintTop_toBottomOf="@id/drag_handle"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:imeOptions="actionSearch"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/search_icon_image_view"
+            android:layout_width="37dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="16dp"
+            map:layout_constraintBottom_toBottomOf="@+id/search_edit_text"
+            map:layout_constraintEnd_toEndOf="@+id/search_edit_text"
+            map:layout_constraintTop_toTopOf="@+id/search_edit_text"
+            map:layout_constraintVertical_bias="1.0"
+            map:srcCompat="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/num_people_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:hint="몇 명 이서 가시나요?"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edit_text_background"
+            android:inputType="number"
+            map:layout_constraintTop_toBottomOf="@id/search_edit_text"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/check_in_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:hint="체크인"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edit_text_background"
+            android:focusable="false"
+            android:clickable="true"
+            map:layout_constraintTop_toBottomOf="@id/num_people_edit_text"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/check_out_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:hint="체크 아웃"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edit_text_background"
+            android:focusable="false"
+            android:clickable="true"
+            map:layout_constraintTop_toBottomOf="@id/check_in_edit_text"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/selected_places_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:background="@drawable/edit_text_background"
+            android:gravity="top"
+            android:padding="16dp"
+            android:hint="원하는 관광지를 클릭하면 자동으로\n이 박스에 저장이 되며 삭제도 됨\nex) 밀락더마켓 x"
+            android:textSize="14sp"
+            map:layout_constraintTop_toBottomOf="@id/check_out_edit_text"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp" />
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="등록하기"
+            android:backgroundTint="#3F51B5"
+            android:textColor="@android:color/white"
+            android:paddingVertical="14dp"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintTop_toBottomOf="@id/selected_places_edit_text"
+            android:layout_marginTop="32dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

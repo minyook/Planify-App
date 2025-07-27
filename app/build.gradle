@@ -1,0 +1,60 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+}
+
+android {
+    namespace 'com.minyook.planify_app'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.minyook.planify_app"
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.constraintlayout
+    implementation libs.play.services.location
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+    implementation 'androidx.core:core-ktx:1.9.0' // 최신 버전으로 업데이트
+    implementation 'androidx.appcompat:appcompat:1.6.1' // 최신 버전으로 업데이트
+    implementation 'com.google.android.material:material:1.12.0' // 중요! 최신 버전 확인
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // 최신 버전으로 업데이트
+    // Google Maps SDK for Android
+    implementation 'com.google.android.gms:play-services-maps:18.2.0' // 최신 버전 확인
+    // Google Location Services
+    implementation 'com.google.android.gms:play-services-location:21.0.1' // 최신 버전 확인
+    // Google Places SDK
+    implementation 'com.google.android.libraries.places:places:3.4.0' // 최신 버전 확인 (현재 3.4.0)
+}
