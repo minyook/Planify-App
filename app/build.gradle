@@ -1,7 +1,10 @@
+// app/build.gradle.kts (Module: app)
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    id("com.google.gms.google-services") // Firebase Google Services Plugin 적용
 }
 
 android {
@@ -21,15 +24,15 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
@@ -38,23 +41,23 @@ android {
 
 dependencies {
 
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation libs.material
-    implementation libs.androidx.activity
-    implementation libs.androidx.constraintlayout
-    implementation libs.play.services.location
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
-    implementation 'androidx.core:core-ktx:1.9.0' // 최신 버전으로 업데이트
-    implementation 'androidx.appcompat:appcompat:1.6.1' // 최신 버전으로 업데이트
-    implementation 'com.google.android.material:material:1.12.0' // 중요! 최신 버전 확인
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // 최신 버전으로 업데이트
-    // Google Maps SDK for Android
-    implementation 'com.google.android.gms:play-services-maps:18.2.0' // 최신 버전 확인
-    // Google Location Services
-    implementation 'com.google.android.gms:play-services-location:21.0.1' // 최신 버전 확인
-    // Google Places SDK
-    implementation 'com.google.android.libraries.places:places:3.4.0' // 최신 버전 확인 (현재 3.4.0)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.auth) // Google 로그인에 필요
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.google.places)
+
+    // --- Firebase 의존성 ---
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.analytics)
 }

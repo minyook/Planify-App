@@ -1,5 +1,21 @@
 <resources>
     <string name="app_name">Planify_App</string>
+
     <string name="title_activity_ai_maps">AiMapsActivity</string>
     <string name="title_activity_maps">MapsActivity</string>
+
+    <string name="default_web_client_id">979620004955-kclusc51rlqde6h5a1hl9kkst0aomsee.apps.googleusercontent.com</string>
+
+    <string name="login_button_text">로그인</string>
+    <string name="signup_text">회원가입</string>
+    <string name="email_hint">아이디를 입력하세요 (이메일)</string>
+    <string name="password_hint">비밀번호를 입력하세요</string>
+    <string name="google_login_preparing">Google 로그인 준비 중...</string>
+    <string name="apple_login_preparing">Apple 로그인 준비 중...</string>
+    <string name="login_success_message">로그인 성공! 환영합니다, %s</string>
+    <string name="login_failed_message">로그인 실패: %s</string>
+    <string name="empty_fields_message">아이디(이메일)와 비밀번호를 모두 입력해주세요.</string>
+    <string name="google_login_failed">Google 로그인 실패: %d</string>
+    <string name="google_login_cancelled">Google 로그인 취소</string>
+
 </resources>
