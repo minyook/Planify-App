@@ -1,25 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    tools:openDrawer="end"> <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="메인 화면입니다!"
-        android:textSize="24sp"
-        android:layout_marginBottom="32dp"/>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="146dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Planify Logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/planify_logo" />
 
-    <Button
-        android:id="@+id/open_ai_map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AI Map 열기" />
+    <ImageView
+        android:id="@+id/menu_icon_image_view" android:layout_width="33dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="26dp"
+        android:contentDescription="Menu Bar Icon"
+        app:layout_constraintBottom_toBottomOf="@+id/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/logo"
+        app:srcCompat="@drawable/ic_menu" />
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Search_bar_main"
+        android:layout_width="0dp" android:layout_height="52dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="43dp"
+        android:background="@drawable/search_bar_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo">
+
+        <EditText
+            android:id="@+id/search_edit_text" android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:background="@android:color/transparent"
+            android:hint="원하는 여행지를 입력해보세요!" android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/search_icon_in_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/search_icon_in_bar" android:layout_width="31dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="11dp"
+            android:contentDescription="Search Icon"
+            app:layout_constraintBottom_toBottomOf="@+id/search_edit_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_edit_text"
+            app:srcCompat="@drawable/ic_search" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/My_Planner_area" android:layout_width="138dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="67dp"
+        android:background="@drawable/box_style1"
+        android:elevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Search_bar_main">
+
+        <ImageView
+            android:id="@+id/my_planner_image" android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:layout_marginTop="31dp"
+            android:contentDescription="My Planner Icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_calender" />
+
+        <TextView
+            android:id="@+id/my_planner_text" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:text="나의 플래너"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_planner_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/AI_Planner_area" android:layout_width="138dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="67dp"
+        android:layout_marginEnd="43dp"
+        android:background="@drawable/box_style2"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/My_Planner_area" app:layout_constraintTop_toBottomOf="@+id/Search_bar_main">
+
+        <ImageView
+            android:id="@+id/ai_planner_image" android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:layout_marginTop="31dp"
+            android:contentDescription="AI Planner Icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_aiplan" />
+
+        <TextView
+            android:id="@+id/ai_planner_text" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:text="AI 플래너"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ai_planner_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        android:background="@color/white"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/navigation_drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

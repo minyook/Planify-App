@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.View // View import
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -60,10 +60,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     ) { isGranted: Boolean ->
         if (isGranted) {
             Log.d("MapsActivity", "위치 권한이 부여되었습니다.")
-            getDeviceLocation()
+            getDeviceLocation() // 권한 부여 시 기기 위치 가져오기 시도
         } else {
             Log.d("MapsActivity", "위치 권한이 거부되었습니다.")
             Toast.makeText(this, "위치 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+            // 권한이 거부되었을 때 기본 위치(서울)로 이동하도록 추가
+            val defaultLocation = LatLng(37.5665, 126.9780) // 서울 시청
+            mMap.addMarker(MarkerOptions().position(defaultLocation).title("기본 위치 (서울)"))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10f))
         }
     }
 
@@ -93,24 +97,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // 기본 상태를 STATE_COLLAPSED로 설정 (peekHeight만큼 올라온 상태)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        // 필요하다면 바텀 시트 상태 변화 리스너 추가 (선택 사항)
-        // bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-        //     override fun onStateChanged(bottomSheet: View, newState: Int) {
-        //         when (newState) {
-        //             BottomSheetBehavior.STATE_EXPANDED -> Log.d("BottomSheet", "확장됨")
-        //             BottomSheetBehavior.STATE_COLLAPSED -> Log.d("BottomSheet", "접힘")
-        //             BottomSheetBehavior.STATE_DRAGGING -> Log.d("BottomSheet", "드래그 중")
-        //             BottomSheetBehavior.STATE_SETTLING -> Log.d("BottomSheet", "정착 중")
-        //             BottomSheetBehavior.STATE_HIDDEN -> Log.d("BottomSheet", "숨겨짐")
-        //             BottomSheetBehavior.STATE_HALF_EXPANDED -> Log.d("BottomSheet", "절반 확장됨")
-        //         }
-        //     }
-        //     override fun onSlide(bottomSheet: View, slideOffset: Float) {
-        //         // 슬라이드 진행률에 따른 동작 (예: 알파 값 변경)
-        //     }
-        // })
-
-
         // 검색 아이콘 클릭 리스너
         binding.searchIconImageView.setOnClickListener {
             performSearch()
@@ -138,10 +124,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        checkLocationPermission()
 
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
+
+        val searchQuery = intent.getStringExtra("SEARCH_QUERY")
+
+        if (!searchQuery.isNullOrEmpty()) {
+            // 메인 화면에서 검색어가 전달된 경우
+            binding.searchEditText.setText(searchQuery) // 검색창에 검색어 미리 채우기
+            performSearch() // 전달받은 검색어로 지도 이동 및 마커 표시
+            // 검색어로 지도를 이동했으므로, 여기서 현재 위치를 가져오는 로직은 실행하지 않음.
+            // 필요하다면 enableMyLocation()만 호출하여 내 위치 버튼 활성화.
+            try {
+                mMap.isMyLocationEnabled = true
+            } catch (e: SecurityException) {
+                // 권한 없으면 무시하거나 토스트 메시지
+            }
+        } else {
+            // 검색어가 없는 경우 (MapsActivity를 단독으로 시작했을 때 등)
+            // 현재 위치를 가져와 지도를 이동 (권한 체크 포함)
+            checkLocationPermission()
+        }
     }
 
     private fun checkLocationPermission() {
@@ -150,11 +154,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
-                Log.d("MapsActivity", "위치 권한이 이미 있습니다.")
+                Log.d("MapsActivity", "위치 권한이 이미 있습니다. 기기 위치 가져오기 시도.")
                 getDeviceLocation()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                Log.d("MapsActivity", "위치 권한 설명 필요.")
+                Log.d("MapsActivity", "위치 권한 설명 필요. 사용자에게 설명 후 요청.")
                 Toast.makeText(this, "이 앱은 현재 위치를 표시하기 위해 위치 권한이 필요합니다.", Toast.LENGTH_LONG).show()
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
@@ -176,8 +180,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap.addMarker(MarkerOptions().position(currentLocation).title("현재 위치"))
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
                     } else {
-                        Log.w("MapsActivity", "현재 위치를 찾을 수 없습니다.")
-                        Toast.makeText(this, "현재 위치를 찾을 수 없습니다.", Toast.LENGTH_LONG).show()
+                        Log.w("MapsActivity", "현재 위치를 찾을 수 없습니다. 기본 위치로 이동.")
+                        Toast.makeText(this, "현재 위치를 찾을 수 없습니다. 기본 위치로 이동합니다.", Toast.LENGTH_LONG).show()
                         val defaultLocation = LatLng(37.5665, 126.9780) // 서울 시청 기본값
                         mMap.addMarker(MarkerOptions().position(defaultLocation).title("기본 위치 (서울)"))
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 15f))
@@ -193,6 +197,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         } catch (e: SecurityException) {
             Log.e("MapsActivity", "위치 권한 없음: ${e.message}")
             Toast.makeText(this, "위치 권한이 없습니다. 앱 설정에서 권한을 허용해주세요.", Toast.LENGTH_LONG).show()
+            val defaultLocation = LatLng(37.5665, 126.9780) // 서울 시청 기본값
+            mMap.addMarker(MarkerOptions().position(defaultLocation).title("기본 위치 (서울)"))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10f))
         }
     }
 
